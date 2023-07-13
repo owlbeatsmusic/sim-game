@@ -50,11 +50,12 @@ int renderer_fullstrcpy_internal(char dest[], const char source[], int dest_arry
 int renderer_initialize() {
 	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {
-			renderer_screengrid[y][x].symbol = '.';
-			renderer_fullstrcpy_internal(renderer_screengrid[y][x].fg_color, COLORCODE_FG_RED, sizeof(renderer_screengrid[y][x].fg_color));
+			renderer_screengrid[y][x].symbol = ' ';
+			renderer_fullstrcpy_internal(renderer_screengrid[y][x].fg_color, COLORCODE_FG_WHITE, sizeof(renderer_screengrid[y][x].fg_color));
 			renderer_fullstrcpy_internal(renderer_screengrid[y][x].bg_color, COLORCODE_BG_CYAN, sizeof(renderer_screengrid[y][x].fg_color));
 		}
 	}
+
 	renderer_terminalclear_internal();
 	renderer_render_screen();
 	return 0;

@@ -3,5 +3,6 @@
 
 int main() {
 	renderer_initialize();
+	world_initialize();
 	return 0;
 }
