@@ -63,8 +63,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 78 + 78) / 156)
-exe 'vert 2resize ' . ((&columns * 77 + 78) / 156)
+exe 'vert 1resize ' . ((&columns * 103 + 78) / 156)
+exe 'vert 2resize ' . ((&columns * 52 + 78) / 156)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -200,11 +200,11 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 20) / 41)
+let s:l = 31 - ((19 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 31
 normal! 0
 lcd ~/code/C/sim-game
 wincmd w
@@ -345,16 +345,16 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 23 - ((16 * winheight(0) + 20) / 41)
+let s:l = 24 - ((17 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 23
+keepjumps 24
 normal! 0
 lcd ~/code/C/sim-game
 wincmd w
-exe 'vert 1resize ' . ((&columns * 78 + 78) / 156)
-exe 'vert 2resize ' . ((&columns * 77 + 78) / 156)
+exe 'vert 1resize ' . ((&columns * 103 + 78) / 156)
+exe 'vert 2resize ' . ((&columns * 52 + 78) / 156)
 tabnext
 edit ~/code/C/sim-game/main.c
 let s:save_splitbelow = &splitbelow
@@ -510,11 +510,11 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 20) / 41)
+let s:l = 2 - ((1 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 2
 normal! 0
 lcd ~/code/C/sim-game
 wincmd w
@@ -655,11 +655,11 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 20) / 41)
+let s:l = 6 - ((5 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 6
 normal! 0
 lcd ~/code/C/sim-game
 wincmd w
@@ -964,10 +964,9 @@ setlocal wrap
 setlocal wrapmargin=0
 lcd ~/code/C/sim-game
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 135 + 78) / 156)
 exe 'vert 2resize ' . ((&columns * 20 + 78) / 156)
-tabnext 3
+tabnext 1
 set stal=1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf

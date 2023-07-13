@@ -48,25 +48,24 @@ int renderer_fullstrcpy_internal(char dest[], const char source[], int dest_arry
 }
 
 int renderer_initialize() {
-	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
+	/*for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {
 			renderer_screengrid[y][x].symbol = ' ';
 			renderer_fullstrcpy_internal(renderer_screengrid[y][x].fg_color, COLORCODE_FG_WHITE, sizeof(renderer_screengrid[y][x].fg_color));
 			renderer_fullstrcpy_internal(renderer_screengrid[y][x].bg_color, COLORCODE_BG_CYAN, sizeof(renderer_screengrid[y][x].fg_color));
 		}
-	}
+	}*/
 
-	renderer_terminalclear_internal();
 	renderer_render_screen();
 	return 0;
 }
 
 int renderer_render_screen() {
-	renderer_screenclear_internal();
+	renderer_terminalclear_internal();
 	
 	//printf("%s %s %c", renderer_screengrid[2][2].fg_color, renderer_screengrid[2][2].bg_color, renderer_screengrid[2][2].symbol);
 	
-
+	renderer_gotoxy_internal(0,0);
 	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {	
 			printf("%s%s%c", renderer_screengrid[y][x].fg_color, renderer_screengrid[y][x].bg_color, renderer_screengrid[y][x].symbol);

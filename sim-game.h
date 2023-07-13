@@ -4,8 +4,8 @@
 #define GLOBAL_SCREEN_WIDTH  80
 #define GLOBAL_SCREEN_HEIGHT 24
 
-#define GLOBAL_WORLD_WIDTH  80
-#define GLOBAL_WORLD_HEIGHT 24
+#define GLOBAL_WORLD_WIDTH  500
+#define GLOBAL_WORLD_HEIGHT 150
 
 extern const char COLORCODE_DEFAULT[];   
 extern const char COLORCODE_FG_BLACK[];   
