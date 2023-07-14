@@ -4,8 +4,8 @@
 #define GLOBAL_SCREEN_WIDTH  80
 #define GLOBAL_SCREEN_HEIGHT 24
 
-#define GLOBAL_WORLD_WIDTH  500
-#define GLOBAL_WORLD_HEIGHT 150
+#define GLOBAL_WORLD_WIDTH  1000
+#define GLOBAL_WORLD_HEIGHT 300
 
 extern const char COLORCODE_DEFAULT[];   
 extern const char COLORCODE_FG_BLACK[];   
@@ -39,7 +39,7 @@ extern ScreenPixel renderer_screengrid[GLOBAL_SCREEN_HEIGHT][GLOBAL_SCREEN_WIDTH
 typedef struct {
 	ScreenPixel screen_pixel;
 	char name[20];
-	
+		
 	
 	/* add what is on the tile */ 
 } Tile;
@@ -47,6 +47,6 @@ typedef struct {
 extern  Tile world_grid[GLOBAL_WORLD_HEIGHT][GLOBAL_WORLD_WIDTH];
 
 int world_initialize();
-
+int world_render_map();
 
 #endif
