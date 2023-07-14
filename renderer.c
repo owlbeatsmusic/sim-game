@@ -35,7 +35,8 @@ int renderer_gotoxy_internal(int x, int y) {
 	return 0;
 }
 
-int renderer_fullstrcpy_internal(char dest[], const char source[], int dest_arry_size) {
+// TODO: vad fan gör den här funktionen här egentligen?
+int renderer_fullstrcpy(char dest[], const char source[], int dest_arry_size) {
 	for (int i = 0; i < dest_arry_size; i++) {
 		dest[i] = source[i];
 	}
@@ -46,8 +47,8 @@ int renderer_screenclear_internal() {
 	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {
 			renderer_screengrid[y][x].symbol = ' ';
-			renderer_fullstrcpy_internal(renderer_screengrid[y][x].fg_color, COLORCODE_FG_WHITE, sizeof(renderer_screengrid[y][x].fg_color));
-			renderer_fullstrcpy_internal(renderer_screengrid[y][x].bg_color, COLORCODE_BG_BLACK, sizeof(renderer_screengrid[y][x].fg_color));
+			renderer_fullstrcpy(renderer_screengrid[y][x].fg_color, COLORCODE_FG_WHITE, sizeof(renderer_screengrid[y][x].fg_color));
+			renderer_fullstrcpy(renderer_screengrid[y][x].bg_color, COLORCODE_BG_BLACK, sizeof(renderer_screengrid[y][x].fg_color));
 		}
 	}
 	return 0;

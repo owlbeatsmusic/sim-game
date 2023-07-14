@@ -5,8 +5,8 @@
 #define GLOBAL_SCREEN_WIDTH  80
 #define GLOBAL_SCREEN_HEIGHT 25
 // 10:3
-#define GLOBAL_WORLD_WIDTH  1000
-#define GLOBAL_WORLD_HEIGHT 300
+#define GLOBAL_WORLD_WIDTH  2000
+#define GLOBAL_WORLD_HEIGHT 600
 
 extern const char COLORCODE_DEFAULT[];   
 extern const char COLORCODE_FG_BLACK[];   
@@ -28,7 +28,8 @@ extern const char COLORCODE_BG_WHITE[];
 
 int renderer_initialize();
 int renderer_render_screen();
-
+int renderer_fullstrcpy();
+ 
 typedef struct {
 	char symbol;
 	char fg_color[8];
