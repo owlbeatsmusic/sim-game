@@ -51,26 +51,32 @@ int world_render_map(int offset_x, int offset_y, int map_width, int map_height) 
 	return 0;
 }	
 
-int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel screen_pixel, int thickness, int avg_length, int max_rebranches, int x_dir, int y_dir) {
-	
-	int rand_from = 0;
-	int rand_to = max_rebranches;
-	int re_branches = rand() % (rand_to - rand_from + 1) + rand_from;
-	
-	rand_from = avg_length - (avg_length/4); 
-	rand_to = avg_length + (avg_length/4);
+int branch_limit;
+int branch_count = 0;
+int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel screen_pixel, int thickness, int avg_length, int rebranches, int x_dir, int y_dir) {
+	branch_count++;
+	if (branch_count > branch_limit) {
+		return 0;
+	}
+	int rand_from = avg_length - (avg_length/4); 
+	int rand_to = avg_length + (avg_length/4);
 	int length = rand() % (rand_to - rand_from + 1) + rand_from;
 
 
 	for (int i = 0; i < length; i++) {
 
 		for (int y = -thickness/2; y < thickness/2; y++) {
-			for (int x = -thickness/2; x < thickness/2; x++) {
-				world_grid[branch_y + y][branch_x + x].screen_pixel =  water_pixel;
+			for (int x = -thickness; x < thickness; x++) {
+				if (!(branch_y + y < 0) & 
+				    !(branch_y + y > GLOBAL_WORLD_HEIGHT) &
+				    !(branch_x + x < 0)  &
+				    !(branch_x + x > GLOBAL_WORLD_WIDTH)) {
+					world_grid[branch_y + y][branch_x + x].screen_pixel =  water_pixel;
+				}
 			}
 		}
-		
-		rand_from = -1; 
+	
+	 	rand_from = -1; 
 		rand_to = 1;
 		int x_change[] = {rand() % (rand_to - rand_from + 1) + rand_from, x_dir};
 		int y_change[] = {rand() % (rand_to - rand_from + 1) + rand_from, y_dir};
@@ -79,14 +85,18 @@ int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel scree
 		branch_x += x_change[rand() % (rand_to - rand_from + 1) + rand_from];
 		branch_y += y_change[rand() % (rand_to - rand_from + 1) + rand_from];		
 	}
-	for (int i = 0; i < re_branches; i++) {
+	for (int i = 0; i < rebranches; i++) {
 		rand_from = -1; 
 		rand_to = 1;
 		x_dir = rand() % (rand_to - rand_from + 1) + rand_from;
 		y_dir = rand() % (rand_to - rand_from + 1) + rand_from;
-		world_create_branches_internal(branch_x, branch_y, water_pixel, thickness, avg_length, max_rebranches-1, x_dir, y_dir);
+	
+		//rand_from  = 0;	
+		//int branches_to_remove = rand() % (rand_to - rand_from + 1) + rand_from;
+
+		world_create_branches_internal(branch_x, branch_y, water_pixel, thickness, avg_length, rebranches, x_dir, y_dir);
 	}
-	world_render_map(0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
+	//world_render_map(0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
 
 	return 0;
 }
@@ -103,14 +113,36 @@ int world_initialize() {
 	}
 	
 	/* step 2 : generate random lines */
-	int rand_from = 0;
-	int rand_to = GLOBAL_WORLD_WIDTH;
-	int branch_x = rand() % (rand_to - rand_from + 1) + rand_from;
-	rand_to = GLOBAL_WORLD_HEIGHT;
-	int branch_y = rand() % (rand_to - rand_from + 1) + rand_from;		
-	world_create_branches_internal(branch_x, branch_y, water_pixel, 20, 200, 4, -1, -1);	
+	for (int i = 0; i < 2; i++) {
+		/*int rand_from = 0;
+		int rand_to = GLOBAL_WORLD_WIDTH;
+		int branch_x = rand() % (rand_to - rand_from + 1) + rand_from;
+		rand_to = GLOBAL_WORLD_HEIGHT;
+		int branch_y = rand() % (rand_to - rand_from + 1) + rand_from; */
+		
+		/* border-water */
+
+
+		/* random-gen water */
+		branch_limit = 5;
+		int thickness = 20;
+		int length = 500;
+		int branches = 3;
 	
-	
+		world_create_branches_internal(0, 0, water_pixel, thickness, length, branches, 2, 1);
+		branch_count = 0;		
+
+		world_create_branches_internal(GLOBAL_WORLD_WIDTH, GLOBAL_WORLD_HEIGHT, water_pixel, thickness, length, branches, -2, -1);
+		branch_count = 0;
+		
+		world_create_branches_internal(GLOBAL_WORLD_WIDTH, 0, water_pixel, thickness, length, branches, -2, 1);
+		branch_count = 0;
+
+		world_create_branches_internal(0, GLOBAL_WORLD_HEIGHT, water_pixel, thickness, length, branches, 2, -1);
+		branch_count = 0;
+		
+		world_render_map(0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
+	}
 	return 0;
 }
 
