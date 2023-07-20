@@ -2,11 +2,11 @@
 #define SIM_GAME_H_
 
 // 10:3
-#define GLOBAL_SCREEN_WIDTH  80
-#define GLOBAL_SCREEN_HEIGHT 25
+#define GLOBAL_SCREEN_WIDTH  80 // 80
+#define GLOBAL_SCREEN_HEIGHT 25 // 25
 // 10:3
-#define GLOBAL_WORLD_WIDTH  2000
-#define GLOBAL_WORLD_HEIGHT 600
+#define GLOBAL_WORLD_WIDTH  4000
+#define GLOBAL_WORLD_HEIGHT 1200
 
 extern const char COLORCODE_DEFAULT[];   
 extern const char COLORCODE_FG_BLACK[];   
@@ -34,6 +34,7 @@ typedef struct {
 	char symbol;
 	char fg_color[8];
 	char bg_color[8];
+	int id;
 } ScreenPixel;
 
 extern ScreenPixel renderer_screengrid[GLOBAL_SCREEN_HEIGHT][GLOBAL_SCREEN_WIDTH];
