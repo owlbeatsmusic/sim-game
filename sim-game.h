@@ -26,9 +26,13 @@ extern const char COLORCODE_BG_CYAN[];
 extern const char COLORCODE_FG_WHITE[];   
 extern const char COLORCODE_BG_WHITE[];
 
-int renderer_initialize();
-int renderer_render_screen();
-int renderer_fullstrcpy();
+void main_print_red_dot();
+void main_print_green_dot();
+void main_print_yellow_dot();
+
+void renderer_initialize();
+void renderer_render_screen();
+void renderer_fullstrcpy();
  
 typedef struct {
 	char symbol;
@@ -49,7 +53,7 @@ typedef struct {
 
 extern  Tile world_grid[GLOBAL_WORLD_HEIGHT][GLOBAL_WORLD_WIDTH];
 
-int world_initialize();
-int world_render_map();
+void world_initialize();
+void world_render_map();
 
 #endif

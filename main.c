@@ -1,33 +1,18 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "sim-game.h"
 
-
-int is_running = 1;
-
-int mainloop() {
-
-	char *input = malloc(sizeof(char) * 99);
-	
-	scanf("input: %s", &input);
-	printf("\n");
-
-	printf("value: %s", input);
-		
-	sleep(1);
-	
-	free(input);
-	
-	if (is_running == 1) {
-		mainloop();
-	}
-	return 0;
+void main_print_red_dot() {
+	printf("[%s*%s] ", COLORCODE_FG_RED, COLORCODE_DEFAULT);
+}
+void main_print_green_dot() {
+	printf("[%s*%s] ", COLORCODE_FG_GREEN, COLORCODE_DEFAULT);
+}
+void main_print_yellow_dot() {
+	printf("[%s*%s] ", COLORCODE_FG_YELLOW, COLORCODE_DEFAULT);
 }
 
 int main() {
 	renderer_initialize();
 	world_initialize();
-	mainloop();
 	return 0;
 }

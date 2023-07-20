@@ -23,27 +23,25 @@ const char COLORCODE_BG_WHITE[]   = "\x1b[47m";
 
 ScreenPixel renderer_screengrid[GLOBAL_SCREEN_HEIGHT][GLOBAL_SCREEN_WIDTH];
 
+
 /* Much faster and does not require iteration */
-int renderer_terminalclear_internal() {
+void renderer_terminalclear_internal() {
 	printf("\033[H\033[J");
-	return 0;
 }
 
 /* Just places cursor, use printf after this function */
-int renderer_gotoxy_internal(int x, int y) {
+void renderer_gotoxy_internal(int x, int y) {
 	printf("\033[%d;%dH", y, x);
-	return 0;
 }
 
 // TODO: vad fan gör den här funktionen här egentligen?
-int renderer_fullstrcpy(char dest[], const char source[], int dest_arry_size) {
+void renderer_fullstrcpy(char dest[], const char source[], int dest_arry_size) {
 	for (int i = 0; i < dest_arry_size; i++) {
 		dest[i] = source[i];
 	}
-	return 0;
 }
 
-int renderer_screenclear_internal() {
+void renderer_screenclear_internal() {
 	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {
 			renderer_screengrid[y][x].symbol = ' ';
@@ -51,21 +49,17 @@ int renderer_screenclear_internal() {
 			renderer_fullstrcpy(renderer_screengrid[y][x].bg_color, COLORCODE_BG_BLACK, sizeof(renderer_screengrid[y][x].fg_color));
 		}
 	}
-	return 0;
 }
 
 
-int renderer_initialize() {
+void renderer_initialize() {
 	renderer_screenclear_internal();
 	renderer_render_screen();
-	return 0;
 }
 
-int renderer_render_screen() {
+void renderer_render_screen() {
 	renderer_terminalclear_internal();
 	
-	//printf("%s %s %c", renderer_screengrid[2][2].fg_color, renderer_screengrid[2][2].bg_color, renderer_screengrid[2][2].symbol);
-	renderer_gotoxy_internal(0,0);	
 	for (int y = 0; y < GLOBAL_SCREEN_HEIGHT; y++) {
 		for (int x = 0; x < GLOBAL_SCREEN_WIDTH; x++) {	
 			printf("%s%s%c", renderer_screengrid[y][x].fg_color, renderer_screengrid[y][x].bg_color, renderer_screengrid[y][x].symbol);
@@ -73,5 +67,4 @@ int renderer_render_screen() {
 		printf("\n");
 	}
 	printf("%s", COLORCODE_DEFAULT);	
-	return 0;	
 }

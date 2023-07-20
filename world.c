@@ -38,15 +38,16 @@ int map_chunk_height;
 int realscale_pos_in_map_x = 0; 
 int realscale_pos_in_map_y = 0;
 
-int world_render_map(int offset_x, int offset_y, int map_width, int map_height) {
+void world_render_map(int offset_x, int offset_y, int map_width, int map_height) {
 	
 	current_map_width  = map_width;
 	current_map_height = map_height;
 	
-	map_chunk_height = (GLOBAL_WORLD_HEIGHT / current_map_height);
-	map_chunk_width  = (GLOBAL_WORLD_WIDTH  / current_map_width);
+	map_chunk_width  = (int)((GLOBAL_WORLD_WIDTH  / current_map_width));
+	map_chunk_height = (int)((GLOBAL_WORLD_HEIGHT / current_map_height));
 	
 	if ((offset_x + map_width > GLOBAL_SCREEN_WIDTH) || (offset_y + map_height > GLOBAL_SCREEN_HEIGHT)) {
+		main_print_red_dot();
 		printf("\nerror: can't render map outside of screen.\n");
 		exit(-1);
 	}
@@ -68,7 +69,6 @@ int world_render_map(int offset_x, int offset_y, int map_width, int map_height) 
 		}
 	}
 	renderer_render_screen();
-	return 0;
 }	
 
 
@@ -76,10 +76,10 @@ int world_render_map(int offset_x, int offset_y, int map_width, int map_height) 
 int branch_limit;
 int branch_count = 0;
 
-int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel screen_pixel, int thickness, int avg_length, int rebranches, int x_dir, int y_dir, int always_follow_dir) {
+void world_create_branches_internal(int branch_x, int branch_y, ScreenPixel screen_pixel, int thickness, int avg_length, int rebranches, int x_dir, int y_dir, int always_follow_dir) {
 	branch_count++;
 	if (branch_count > branch_limit) {
-		return 0;
+		return;
 	}
 	int rand_from = avg_length - (avg_length/4); 
 	int rand_to = avg_length + (avg_length/4);
@@ -94,8 +94,8 @@ int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel scree
 				    !(branch_y + y > GLOBAL_WORLD_HEIGHT) &
 				    !(branch_x + x < 0)  &
 				    !(branch_x + x > GLOBAL_WORLD_WIDTH)) {
-					if (world_grid[branch_y + y][branch_x + x].screen_pixel.id ==  water_pixel.id) continue;
-					world_grid[branch_y + y][branch_x + x].screen_pixel =  water_pixel;
+					if (world_grid[branch_y + y][branch_x + x].screen_pixel.id ==  screen_pixel.id) continue;
+					world_grid[branch_y + y][branch_x + x].screen_pixel =  screen_pixel;
 				}
 			}
 		}
@@ -118,13 +118,12 @@ int world_create_branches_internal(int branch_x, int branch_y, ScreenPixel scree
 		}
 		world_create_branches_internal(branch_x, branch_y, water_pixel, thickness, avg_length, rebranches, x_dir, y_dir, always_follow_dir);
 	}
-
-	return 0;
 }
 
 
 
-int world_render_realscale(int world_x, int world_y, int offset_x, int offset_y, int view_width, int view_height) {
+void world_render_realscale(int world_x, int world_y, int offset_x, int offset_y, int view_width, int view_height) {
+	if (world_x+view_width > GLOBAL_WORLD_WIDTH || world_y+view_height > GLOBAL_WORLD_HEIGHT) return; 
 	realscale_pos_in_map_x = round((world_x + (int)(view_width /2)) / map_chunk_width);
 	realscale_pos_in_map_y = round((world_y + (int)(view_height/2)) / map_chunk_height);
 	for (int y = 0; y < view_height; y++) {
@@ -133,13 +132,13 @@ int world_render_realscale(int world_x, int world_y, int offset_x, int offset_y,
 		}		
 	}
 	//renderer_render_screen();
-	return 0;
+	return;
 }
 
 
 
 
-int world_initialize() {
+void world_initialize() {
 
 	srand(time(NULL));			
 
@@ -172,7 +171,8 @@ int world_initialize() {
 	branch_count = 0;
 		
 	int end = time(NULL);
-	printf("border : %d\n", (int)(end - begin));
+	main_print_green_dot();
+	printf("border water generated (time:%ds)\n", (int)(end - begin));
 
 	begin = time(NULL);
 	for (int i = 0; i < 2; i++) {
@@ -197,7 +197,8 @@ int world_initialize() {
 		
 	}
 	end = time(NULL);
-	printf("rivers : %d\n", (int)(end - begin));
+	main_print_green_dot();
+	printf("large waterpockets generated (time:%ds)\n", (int)(end - begin));
 
 
 	/* random splashes of water */
@@ -227,8 +228,9 @@ int world_initialize() {
 	}
 
 	end = time(NULL);
-	printf("splahes : %d\n", (int)(end - begin));
-	
+	main_print_green_dot();
+	printf("random small water pockets generated (time:%ds)\n", (int)(end - begin));
+
 	sleep(1);
 
 	world_render_map(0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
@@ -241,9 +243,17 @@ int world_initialize() {
 	while (1) {	
 		current_x += 1;
 		current_y += 0;
+		/*
+		branch_limit = 1;
+		int thickness = 100;
+		int length = 2;
+		int branches = 0;
+		world_create_branches_internal(current_x, current_y, stone_pixel, thickness, length, branches, 5, 0, 1);
+		branch_count = 0;		
+		*/
+		//world_render_map(0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
 		world_render_map(0, 0, 21, 8);
 		world_render_realscale(current_x, current_y, 0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
-		usleep(5000);
+		usleep(10000);
 	}
-	return 0;
 }
