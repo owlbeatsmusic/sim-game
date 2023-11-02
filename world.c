@@ -91,9 +91,9 @@ void world_create_branches_internal(int branch_x, int branch_y, ScreenPixel scre
 		for (int y = -thickness/2; y < thickness/2; y++) {
 			for (int x = -thickness; x < thickness; x++) {
 				if (!(branch_y + y < 0) & 
-				    !(branch_y + y > GLOBAL_WORLD_HEIGHT) &
+				    !(branch_y + y >= GLOBAL_WORLD_HEIGHT) &
 				    !(branch_x + x < 0)  &
-				    !(branch_x + x > GLOBAL_WORLD_WIDTH)) {
+				    !(branch_x + x >= GLOBAL_WORLD_WIDTH)) {
 					if (world_grid[branch_y + y][branch_x + x].screen_pixel.id ==  screen_pixel.id) continue;
 					world_grid[branch_y + y][branch_x + x].screen_pixel =  screen_pixel;
 				}
@@ -151,13 +151,13 @@ void world_initialize() {
 	
 	/* step 2 : generate random lines */
 	/* border water */ 
-	int begin = time(NULL);
 	
+	int begin = time(NULL);
 	branch_limit = 1;
 	int thickness = 100;
 	int length = 8000;
 	int branches = 0;
-
+	/*
 	world_create_branches_internal(0, 0, water_pixel, thickness, length, branches, 5, 0, 1);
 	branch_count = 0;		
 
@@ -169,7 +169,7 @@ void world_initialize() {
 
 	world_create_branches_internal(10, GLOBAL_WORLD_HEIGHT, water_pixel, thickness, length, branches, 0, -5, 1);
 	branch_count = 0;
-		
+	*/	
 	int end = time(NULL);
 	main_print_green_dot();
 	printf("border water generated (time:%ds)\n", (int)(end - begin));
@@ -177,7 +177,7 @@ void world_initialize() {
 	begin = time(NULL);
 	for (int i = 0; i < 2; i++) {
 		
-		/* river water */ 
+		// river water 
 		branch_limit = 5;
 		thickness = 30;
 		length = 1600;
@@ -199,7 +199,7 @@ void world_initialize() {
 	end = time(NULL);
 	main_print_green_dot();
 	printf("large waterpockets generated (time:%ds)\n", (int)(end - begin));
-
+	
 
 	/* random splashes of water */
 
@@ -255,5 +255,6 @@ void world_initialize() {
 		world_render_map(0, 0, 21, 8);
 		world_render_realscale(current_x, current_y, 0, 0, GLOBAL_SCREEN_WIDTH, GLOBAL_SCREEN_HEIGHT);
 		usleep(10000);
+
 	}
 }

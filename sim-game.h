@@ -32,7 +32,7 @@ void main_print_yellow_dot();
 
 void renderer_initialize();
 void renderer_render_screen();
-void renderer_fullstrcpy();
+void renderer_fullstrcpy(char dest[], const char source[], int dest_arry_size); 
  
 typedef struct {
 	char symbol;
@@ -54,6 +54,6 @@ typedef struct {
 extern  Tile world_grid[GLOBAL_WORLD_HEIGHT][GLOBAL_WORLD_WIDTH];
 
 void world_initialize();
-void world_render_map();
+void world_render_map(int offset_x, int offset_y, int map_width, int map_height);
 
 #endif

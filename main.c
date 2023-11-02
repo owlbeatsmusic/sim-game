@@ -12,7 +12,7 @@ void main_print_yellow_dot() {
 }
 
 int main() {
-	renderer_initialize();
+	//renderer_initialize();
 	world_initialize();
 	return 0;
 }
